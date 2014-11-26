@@ -140,17 +140,20 @@ end
 class Array
   #DISCLAIMER: I found some of the array class extension logic online and altered it to suit this project
   def median
+    return nil if self.empty?
     sorted = self.sort
     mid = (sorted.length - 1) / 2
     (sorted[mid.floor] + sorted[mid.ceil]) / 2
   end
 
   def mean
+    return nil if self.empty?
     sum = inject(0.0) { |x, y| x + y }
     sum / size
   end
 
   def mode(get_inverse=false)
+    return nil if self.empty?
     enum = get_inverse ? :min : :max
     group_by { |i| i }.send(enum){ |x, y| x[1].length <=> y[1].length }[0]
   end
