@@ -1,6 +1,5 @@
 # Run via terminal: ruby heroku_log_parser.rb [LOG_PATH]
 
-require 'pry'
 class HerokuLogParser
   def initialize(path)
     raise FileNotFoundError, "There is no file with that name in the specified directory" unless File.exists?(path)
@@ -26,7 +25,6 @@ class HerokuLogParser
       cache_response_time(line, request_key)
       @total_requests += 1
     end
-    puts @endpoints
     pretty_print_outputs
   end
 
@@ -39,11 +37,7 @@ class HerokuLogParser
     request_path = path_param.match(/[^path=].*/)[0].to_s
 
     if request_method == "POST"
-      if request_path =~ /users/
-        return :user_post
-      else
-        return :other
-      end
+      request_path =~ /users/ ? :user_post : :other
 
     elsif request_method == "GET"
       if request_path =~ /count_pending_messages/
